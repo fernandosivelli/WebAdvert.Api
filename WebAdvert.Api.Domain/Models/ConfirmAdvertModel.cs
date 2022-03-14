@@ -4,7 +4,7 @@ namespace WebAdvert.Api.Domain.Models
 {
     public class ConfirmAdvertModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public AdvertStatusEnum Status { get; set; }
     }
 }

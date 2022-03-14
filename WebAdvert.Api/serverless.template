@@ -9,7 +9,7 @@
       "Type": "AWS::Serverless::Function",
       "Properties": {
         "Handler": "WebAdvert.Api::WebAdvert.Api.LambdaEntryPoint::FunctionHandlerAsync",
-        "Runtime": "dotnet6",
+        "Runtime": "dotnet3.1",
         "CodeUri": "",
         "MemorySize": 256,
         "Timeout": 30,
