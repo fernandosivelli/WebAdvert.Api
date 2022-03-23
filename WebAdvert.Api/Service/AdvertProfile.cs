@@ -2,7 +2,7 @@
 using WebAdvert.Api.Domain.Models;
 using WebAdvert.Api.Models;
 
-namespace WebAdvert.Api.Services
+namespace WebAdvert.Api.Service
 {
     public class AdvertProfile : Profile
     {

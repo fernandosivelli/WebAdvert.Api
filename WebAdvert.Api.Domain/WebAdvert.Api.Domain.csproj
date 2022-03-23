@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageProjectUrl>https://github.com/fernandosivelli/WebAdvert.Api</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fernandosivelli/WebAdvert.Api</RepositoryUrl>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+	  <versionprefix>1.0.1</versionprefix>
   </PropertyGroup>
 
 </Project>
