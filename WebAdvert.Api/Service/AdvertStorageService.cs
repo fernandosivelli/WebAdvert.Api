@@ -42,14 +42,11 @@ namespace WebAdvert.Api.Services
 
             if (record == null)
                 throw new KeyNotFoundException($"A record with ID={model.Id} was not found.");
-            if (model.Status == AdvertStatusEnum.Pending)
+
+            if (model.Status == AdvertStatusEnum.Active)
             {
-                record.Status = AdvertStatusEnum.Active;
+                record.Status = model.Status;
                 await context.SaveAsync(record);
-            }
-            else
-            {
-                await context.DeleteAsync(record);
             }
         }
 

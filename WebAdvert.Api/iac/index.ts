@@ -70,4 +70,12 @@ const advertsDynamoDbTable = new aws.dynamodb.Table("Adverts", {
     name: "Adverts"
 });
 
+const bucket = new aws.s3.Bucket("fe-webadvertapi", {
+    acl: "private",
+    bucket: "fe-webadvertapi",
+    tags: {
+        Name: "fe-webadvertapi",
+    },
+});
+
 httpApiGateway.apiEndpoint.apply(endpoint => endpoint + "/adverts/v1")

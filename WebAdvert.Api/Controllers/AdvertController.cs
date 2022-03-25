@@ -49,7 +49,7 @@ namespace WebAdvert.Api.Controllers
             return StatusCode(201, new CreateAdvertResponse() { Id = recordId });
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("Confirm")]
         [ProducesResponseType(404)]
         [ProducesResponseType(200)]
