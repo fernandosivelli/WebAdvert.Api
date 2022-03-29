@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Amazon;
 using Amazon.DynamoDBv2;
+using Amazon.SimpleNotificationService;
+using Amazon.SimpleNotificationService.Model;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using WebAdvert.Api.Domain.Messages;
 using WebAdvert.Api.Domain.Models;
 using WebAdvert.Api.Models;
 using WebAdvert.Api.Services;
@@ -14,10 +20,12 @@ namespace WebAdvert.Api.Controllers
     public class AdvertController : ControllerBase
     {
         private readonly IAdvertStorageService _advertStorageService;
+        private readonly IConfiguration _configuration;
 
-        public AdvertController(IAdvertStorageService advertStorageService)
+        public AdvertController(IAdvertStorageService advertStorageService, IConfiguration configuration)
         {
             _advertStorageService = advertStorageService;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -58,6 +66,7 @@ namespace WebAdvert.Api.Controllers
             try
             {
                  await _advertStorageService.Confirm(model);
+                 await RaiseAdvertConfirmedMessage(model);
             }
             catch (KeyNotFoundException)
             {
@@ -69,6 +78,27 @@ namespace WebAdvert.Api.Controllers
             }
 
             return new OkResult();
+        }
+
+        private async Task RaiseAdvertConfirmedMessage(ConfirmAdvertModel model)
+        {
+            var topicArn = _configuration.GetValue<string>("WebAdvertApiSnsArn");
+
+            var advertModel = await _advertStorageService.GetById(model.Id);
+
+            using var client = new AmazonSimpleNotificationServiceClient(RegionEndpoint.EUWest1);
+
+            var message = new AdvertConfirmedMessageModel()
+            {
+                Id = model.Id,
+                Title = advertModel.Title
+            };
+
+            var messageJson = JsonConvert.SerializeObject(message);
+
+            var publishRequest = new PublishRequest(topicArn, messageJson);
+
+            await client.PublishAsync(publishRequest);
         }
     }
 }

@@ -79,3 +79,5 @@ const bucket = new aws.s3.Bucket("fe-webadvertapi", {
 });
 
 httpApiGateway.apiEndpoint.apply(endpoint => endpoint + "/adverts/v1")
+
+const webAdvertApiSns = new aws.sns.Topic("WebAdvertApi", {});
